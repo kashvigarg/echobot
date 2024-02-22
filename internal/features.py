@@ -4,7 +4,7 @@ import jsonf
 def trans_eng(file):
     model = whisper.load_model("base.en")
     eng = model.transcribe(file)
-    jsonf.eng_json(eng,file)
+    jsonf.eng_json(eng['text'],file)
     
 
 def trans_both(file):
@@ -22,4 +22,4 @@ def trans_both(file):
     sea_lang = whisper.decode(model, mel, options)
 
     eng = model.transcribe(file)
-    jsonf.merge_text(eng, sea_lang,file)
+    jsonf.merge_text(eng['text'], sea_lang['text'],file)
