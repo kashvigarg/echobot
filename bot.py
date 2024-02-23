@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import telebot
 import logging
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
-from echobot.bot_methods import * 
+from bot_methods import *
 
 load_dotenv()
 
@@ -21,12 +21,18 @@ if __name__ == '__main__':
     
     start_handler = CommandHandler('start', start)
     help_handler = CommandHandler('help', help)
+    bulk_start_handler = CommandHandler('begin', begin)
+    bulk_end_handler = CommandHandler('done', end)
     audio_handler = MessageHandler(filters.AUDIO, audio_upload)
     voice_handler = MessageHandler(filters.VOICE, audio_chat)
+    videonote_handler = MessageHandler(filters.VIDEO_NOTE, video_chat)
+    video_handler = MessageHandler(filters.VIDEO, video_upload)
     
     application.add_handler(start_handler)
     application.add_handler(audio_handler)
     application.add_handler(voice_handler)
     application.add_handler(help_handler)
-    
+    application.add_handler(video_handler)
+    application.add_handler(videonote_handler)
+
     application.run_polling()

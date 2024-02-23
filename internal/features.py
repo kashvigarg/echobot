@@ -1,7 +1,33 @@
 import whisper
-from jsonf import *
+# from jsonf import *
 import os
 
+import json
+
+languages={"id":"indonesian",
+           "vi":"vietnamese",
+           "th":"thai",
+           "my":"myanmar",
+           "ms":"malay",
+           "zh":"chinese",
+           "lo": "lao"}
+
+def eng_json(eng, file_name):
+    object={}
+    object['eng']=eng
+
+    with open(file_name,'w') as json_file:
+        json.dump(object,json_file)
+
+
+def sea_json(sea,eng,lang,file_name):
+    object={}
+    object[languages[lang]]=sea
+    object['eng']=eng
+
+    with open(file_name,'w') as json_file:
+        json.dump(object,json_file)
+        
 def detect_lang(model,audio):
     audiop = whisper.load_audio(audio)
     audio_test = whisper.pad_or_trim(audiop) #fits the audio into 30s 
@@ -44,4 +70,4 @@ def trans_both(audio):
     sea_json(sea_lang["text"],eng["text"],lang_test,file_name)
 
 
-trans_both("indotest1.mp3")
+# trans_both("indotest1.mp3")
