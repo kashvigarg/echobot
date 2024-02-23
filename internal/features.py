@@ -3,10 +3,13 @@ from jsonf import *
 import os
 
 def detect_lang(model,audio):
-    audio = whisper.load_audio(audio)
-    audio_test = whisper.pad_or_trim(audio) #fits the audio into 30s 
-    test=model.transcribe(audio_test)
-    lang=test["language"]
+    audiop = whisper.load_audio(audio)
+    audio_test = whisper.pad_or_trim(audiop) #fits the audio into 30s 
+    mel = whisper.log_mel_spectrogram(audio_test)
+
+    _, probs = model.detect_language(mel)
+ 
+    lang=max(probs, key=probs.get)
 
     if lang not in ['id','vi','th','my','ms','zh','lo']:
         return "False"
@@ -39,5 +42,6 @@ def trans_both(audio):
     file_name=os.path.splitext(audio)[0]+'.json'
 
     sea_json(sea_lang["text"],eng["text"],lang_test,file_name)
+
 
 trans_both("indotest1.mp3")
