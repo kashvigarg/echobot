@@ -1,9 +1,9 @@
 import json
 
-
 def eng_json(eng):
     object={}
     object['eng']=eng
+
     with open("test.json",'w') as json_file:
         json.dump(object,json_file)
 
