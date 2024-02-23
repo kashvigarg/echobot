@@ -8,7 +8,7 @@ def detect_lang(model,audio):
     test=model.transcribe(audio_test)
     lang=test["language"]
 
-    if lang not in ['id','vi','th','my','ms','zh']:
+    if lang not in ['id','vi','th','my','ms','zh','lo']:
         return "False"
     else:
         return lang
