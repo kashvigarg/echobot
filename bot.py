@@ -21,8 +21,6 @@ if __name__ == '__main__':
     
     start_handler = CommandHandler('start', start)
     help_handler = CommandHandler('help', help)
-    bulk_start_handler = CommandHandler('begin', begin)
-    bulk_end_handler = CommandHandler('done', end)
     audio_handler = MessageHandler(filters.AUDIO, audio_upload)
     voice_handler = MessageHandler(filters.VOICE, audio_chat)
     videonote_handler = MessageHandler(filters.VIDEO_NOTE, video_chat)

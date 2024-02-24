@@ -5,13 +5,9 @@ start_msg = (
 
 help_msg = (
     "Welcome to EchoBot! Contribute audio with South East Asian context using these commands:\n\n"
-    "To share a single file:\n"
-    "- Simply upload a video or audio file, or\n"
-    "- Record a new audio message.\n\n"
-    "For bulk submissions:\n"
-    "- Use /begin to start a new bulk submission\n"
-    "- Add your files\n"
-    "- Use /done when finished with the bulk submission\n\n"
+    "To share a files:\n"
+    "- Simply upload video and audio files, or\n"
+    "- Record a new audio/video message.\n\n"
     "/context [description]: Add a brief description to your audio.\n"
     "/language [code]: Set your preferred language (e.g., /language en for English).\n"
     "/review: Check stats on your recent submission.\n"
@@ -21,5 +17,5 @@ help_msg = (
 )
 
 confirmation_msg = (
-    "Thanks for your contribution! Your audio has been received. Feel free to use /review to check or edit your submission."
+    "Thanks for your contribution! Your media has been received. Feel free to use /review to check or edit your submission."
 )
