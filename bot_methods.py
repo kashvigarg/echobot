@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from constants import *
-from functions import *
+from internal.functions import *
 from internal.features import*
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
