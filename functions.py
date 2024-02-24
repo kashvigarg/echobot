@@ -17,4 +17,13 @@ async def download_file(file_path, file_name):
     downloaded_media = requests.get(file_path)
     with open(os.path.join(media_directory, file_name), 'wb') as f:
         f.write(downloaded_media.content)
-        
+
+async def delete_file(file_name):
+    media_directory = 'media'
+    if not os.path.exists(f"{media_directory}/{file_name}"):
+        print("File or directory doesn't exist")
+    else:
+        os.remove(f"{media_directory}/{file_name}")
+
+#delete_file("test.json")
+

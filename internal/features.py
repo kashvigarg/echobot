@@ -1,8 +1,8 @@
 import whisper
 # from jsonf import *
 import os
-
 import json
+import os
 
 languages={"id":"indonesian",
            "vi":"vietnamese",
@@ -68,6 +68,7 @@ def trans_both(audio):
     file_name=os.path.splitext(audio)[0]+'.json'
 
     sea_json(sea_lang["text"],eng["text"],lang_test,file_name)
+
 
 
 # trans_both("indotest1.mp3")
