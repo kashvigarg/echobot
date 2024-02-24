@@ -1,8 +1,8 @@
 import whisper
 # from jsonf import *
 import os
-
 import json
+import os
 
 languages={"id":"indonesian",
            "vi":"vietnamese",
@@ -69,5 +69,11 @@ def trans_both(audio):
 
     sea_json(sea_lang["text"],eng["text"],lang_test,file_name)
 
+def delete_file(file):
+    if os.path.exists(file):
+        os.remove(file)
+    else:
+        print(file)
 
 # trans_both("indotest1.mp3")
+delete_file("indo.json")
