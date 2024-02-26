@@ -11,6 +11,7 @@ help_msg = (
     "/context [description]: Add a brief description to your audio.\n"
     "/language [code]: Set your preferred language (e.g., /language en for English).\n"
     "/review: Check stats on your recent submission.\n"
+    "/trmode: Toggle between translation modes.\n"
     "/info: Learn more about our project and data policies.\n\n"
     
     "Feel free to explore and make your contributions memorable!"
