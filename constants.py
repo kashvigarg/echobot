@@ -19,3 +19,11 @@ help_msg = (
 confirmation_msg = (
     "Thanks for your contribution! Your media has been received. Feel free to use /review to check or edit your submission."
 )
+
+allowed_mime_types= mime_types = [
+    'audio/mpeg',  # for mp3, mpweg, mpga
+    'video/mp4',   # for mp4
+    'audio/mp4',   # for m4a
+    'audio/wav',   # for wav
+    'audio/webm'   # for webm
+]
