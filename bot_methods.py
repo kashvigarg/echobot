@@ -18,7 +18,8 @@ async def audio_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
         await download_file(file_path=file_path, file_name=file_name)
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Received an audio file!")
         lang = trans_both(audio=f'media/{file_name}')
-        if (lang=='False'):
+        if (lang==False):
+            await delete_file(file_name=file_name)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
         else:
             json_name = file_name.split('.')[0] + '.json'
@@ -34,6 +35,7 @@ async def audio_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def audio_chat(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.voice
+    
     data_size, data_res = await check_size(data.file_size)
     if (data_res):
         file_name = "voicerec" + data.file_unique_id + ".oga"
