@@ -4,41 +4,47 @@ from constants import *
 from internal.functions import *
 from internal.features import*
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=start_msg)
+options = {
+    'both': 'Both',
+    'english_only': 'English only'
+}
+ 
+curr_mode = 'both'
 
-# options = {
-#     'both': 'Receive both transcribed audio and translated English text',
-#     'english_only': 'Receive only translated English text'
-# }
-
-# async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-#     user_id = update.message.from_user.id
-#     message_text = "Please choose an option:"
+async def change_mode(update, context):
+    global curr_mode
+    if (curr_mode == 'both'):
+        curr_mode = 'english_only'
+    else:
+        curr_mode = 'both'
     
-#     # Create inline keyboard with options
-#     keyboard = [
-#         [InlineKeyboardButton(text, callback_data=option) for option, text in options.items()]
-#     ]
-#     reply_markup = InlineKeyboardMarkup(keyboard)
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f'Changed translation mode to {curr_mode}')
 
-#     # Send the message with the inline keyboard
-#     await context.bot.send_message(chat_id=user_id, text=message_text, reply_markup=reply_markup)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_id = update.message.from_user.id
+    message_text =  "Do you want to receive both the transcribed audio and the translated English text, or only the English text?\n\nYou can modify this using the /trmode command later."
 
-# # Handle the user's choice
-# def handle_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-#     query = update.callback_query
-#     user_id = query.from_user.id
-#     choice = query.data.lower()
+    keyboard = [
+        [InlineKeyboardButton(text, callback_data=option) for option, text in options.items()]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
 
-#     # Process the user's choice
-#     if choice in options:
-#         context.bot.send_message(chat_id=user_id, text=f"You selected: {options[choice]}")
-#         # Now, you can proceed with the logic to send the chosen content.
-#     else:
-#         # Invalid choice
-#         context.bot.send_message(chat_id=user_id, text="Invalid choice. Please choose an option.")
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=start_msg)
+    await context.bot.send_message(chat_id=user_id, text=message_text, reply_markup=reply_markup)
+    
 
+async def handle_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    user_id = query.from_user.id
+    choice = query.data.lower()
+
+    if choice not in options:
+       await context.bot.send_message(chat_id=user_id, text="Invalid choice. Please choose an option.")
+       return 
+
+    await query.answer()
+    curr_mode = query.data
+    await query.edit_message_text(text=f"Selected option: {query.data}")
 
 
 async def audio_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
@@ -51,7 +57,10 @@ async def audio_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
         file_path = file.file_path
         await download_file(file_path=file_path, file_name=file_name)
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Received an audio file!")
-        lang = trans_both(audio=f'media/{file_name}')
+        if (curr_mode == 'both'):
+            lang = trans_both(audio=f'media/{file_name}')
+        else :
+            lang = trans_eng(audio=f'media/{file_name}')
         if (lang==False):
             await delete_file(file_name=file_name)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
@@ -77,7 +86,10 @@ async def audio_chat(update : Update, context: ContextTypes.DEFAULT_TYPE):
         file_path = file.file_path
         await download_file(file_path=file_path, file_name=file_name)
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Received a voice recording!") 
-        lang = trans_both(audio=f'media/{file_name}')
+        if (curr_mode == 'both'):
+            lang = trans_both(audio=f'media/{file_name}')
+        else :
+            lang = trans_eng(audio=f'media/{file_name}')
         if (lang==False):
             await delete_file(file_name=file_name)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
@@ -104,7 +116,10 @@ async def video_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
         file_path = file.file_path
         await download_file(file_path=file_path, file_name=file_name)
         await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Received a video file {file_name}!")
-        lang = trans_both(audio=f'media/{file_name}')
+        if (curr_mode == 'both'):
+            lang = trans_both(audio=f'media/{file_name}')
+        else :
+            lang = trans_eng(audio=f'media/{file_name}')
         if (lang==False):
             await delete_file(file_name=file_name)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
@@ -129,7 +144,10 @@ async def video_chat(update : Update, context: ContextTypes.DEFAULT_TYPE):
         file_path = file.file_path
         await download_file(file_path=file_path, file_name=file_name)
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Received a video chat!")
-        lang = trans_both(audio=f'media/{file_name}')
+        if (curr_mode == 'both'):
+            lang = trans_both(audio=f'media/{file_name}')
+        else :
+            lang = trans_eng(audio=f'media/{file_name}')
         if (lang==False):
             await delete_file(file_name=file_name)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
@@ -162,7 +180,10 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
         
         await download_file(file_path=file_path, file_name=file_name)
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Received am media file!")
-        lang = trans_both(audio=f'media/{file_name}')
+        if (curr_mode == 'both'):
+            lang = trans_both(audio=f'media/{file_name}')
+        else :
+            lang = trans_eng(audio=f'media/{file_name}')
         if (lang==False):
             await delete_file(file_name=file_name)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
