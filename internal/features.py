@@ -2,8 +2,6 @@ import whisper
 import json
 import os
 
-import os
-
 languages={"id":"indonesian",
            "vi":"vietnamese",
            "th":"thai",
