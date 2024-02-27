@@ -43,6 +43,7 @@ async def handle_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
        return 
 
     await query.answer()
+    global curr_mode
     curr_mode = query.data
     await query.edit_message_text(text=f"Selected option: {query.data}")
 
