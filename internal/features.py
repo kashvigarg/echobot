@@ -10,11 +10,12 @@ languages={"id":"indonesian",
            "my":"myanmar",
            "ms":"malay",
            "zh":"chinese",
-           "lo": "lao"}
+           "lo": "lao",
+           "eng":"english"}
 
-def eng_json(eng, file_name):
+def lang_json(text,file_name,lang="eng"):
     object={}
-    object['eng']=eng
+    object[languages[lang]]=text
 
     with open(file_name,'w') as json_file:
         json.dump(object,json_file)
@@ -42,6 +43,18 @@ def detect_lang(model,audio):
     else:
         return lang
     
+def trans_sea(audio):
+    model=whisper.load_model("small")
+
+    lang_test=detect_lang(model,audio)
+    if lang_test=='False':
+        return False
+    
+    sea=model.transcribe(audio)
+
+    file_name=os.path.splitext(audio)[0]+'.json'
+    lang_json(sea["text"],file_name,lang_test)
+    
 def trans_eng(audio):
     model=whisper.load_model("small")
 
@@ -52,7 +65,7 @@ def trans_eng(audio):
     eng=model.transcribe(audio,task="translate")
 
     file_name=os.path.splitext(audio)[0]+'.json'
-    eng_json(eng["text"],file_name)
+    lang_json(eng["text"],file_name)
 
 
 def trans_both(audio):
@@ -71,4 +84,4 @@ def trans_both(audio):
 
 
 
-# trans_both("indotest1.mp3")
+trans_sea("../media/indo4.mp3")
