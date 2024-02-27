@@ -1,6 +1,4 @@
 import whisper
-# from jsonf import *
-import os
 import json
 import os
 
@@ -28,7 +26,7 @@ def sea_json(sea,eng,lang,file_name):
 
     with open(file_name,'w') as json_file:
         json.dump(object,json_file)
-        
+       
 def detect_lang(model,audio):
     audiop = whisper.load_audio(audio)
     audio_test = whisper.pad_or_trim(audiop) #fits the audio into 30s 
@@ -84,4 +82,4 @@ def trans_both(audio):
 
 
 
-trans_sea("../media/indo4.mp3")
+#trans_sea("../media/indo4.mp3")

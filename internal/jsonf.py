@@ -6,11 +6,12 @@ languages={"id":"indonesian",
            "my":"myanmar",
            "ms":"malay",
            "zh":"chinese",
-           "lo": "lao"}
+           "lo": "lao",
+           "eng":"english"}
 
-def eng_json(eng, file_name):
+def lang_json(text,file_name,lang="eng"):
     object={}
-    object['eng']=eng
+    object[languages[lang]]=text
 
     with open(file_name,'w') as json_file:
         json.dump(object,json_file)
