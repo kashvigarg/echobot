@@ -11,6 +11,7 @@ help_msg = (
     "/context [description]: Add a brief description to your audio.\n"
     "/language [code]: Set your preferred language (e.g., /language en for English).\n"
     "/review: Check stats on your recent submission.\n"
+    "/trmode: Toggle between translation modes.\n"
     "/info: Learn more about our project and data policies.\n\n"
     
     "Feel free to explore and make your contributions memorable!"
@@ -19,3 +20,11 @@ help_msg = (
 confirmation_msg = (
     "Thanks for your contribution! Your media has been received. Feel free to use /review to check or edit your submission."
 )
+
+allowed_mime_types= mime_types = [
+    'audio/mpeg',  # for mp3, mpweg, mpga
+    'video/mp4',   # for mp4
+    'audio/mp4',   # for m4a
+    'audio/wav',   # for wav
+    'audio/webm'   # for webm
+]
