@@ -1,5 +1,5 @@
 # ECHOBOT
-Echobot is a telegram bot that facilitates LLM data collection with a South East Asian context.
+EchoBot is a Telegram bot designed to streamline data collection for research in the field of Large Language Models (LLM), specifically focusing on languages spoken in Southeast Asia. It is an easy to use tool, that comes with extensive documentation and a friendly user interface.
 
 
 ## Getting Started
