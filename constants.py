@@ -30,7 +30,7 @@ help_msg = (
     "    You'll receive an option to choose from:\n"
     "       1. Both: Receive a transcription of your uploaded media's audio in the original language, as well as an English translation of the same.\n"
     "       2. English only: Receive only the English translation of your uploaded media's audio.\n"
-    "       3. SEA only: Receive only the transcription of your uploaded media's audio in the original language.\n\n"
+    "       3. SEA only: Receive only the transcription of your uploaded media in the original language.\n\n"
     "❓ /languages: View all languages currently supported by EchoBot.\n\n"
     "🔒 /privacy: Toggle between privacy settings. Use /info for further detail on how we use your data.\n\n"
     "ℹ️ /info: Learn more about our project and data policies.\n\n"
@@ -64,7 +64,6 @@ languages_supported_msg = (
     "Myanmar\n"
     "Malay\n"
     "Lao\n"
-    "English\n"
 )
 
 
