@@ -48,7 +48,7 @@ if __name__ == '__main__':
     application.add_handler(callback_handler)
     application.add_handler(info_handler)
     application.add_handler(language_handler)
-    application.add_handler(link_handler)
+    # application.add_handler(link_handler)
     application.add_error_handler(error_handler)
     
 
