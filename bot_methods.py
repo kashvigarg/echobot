@@ -142,19 +142,7 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your file occupies {data_size} MB. EchoBot currently doesn't support files exceeding 25 MB :(")
 
-async def link_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
-    data_link = update.message.text
-
-    data_saved, file_name, file_size = await download_youtube_audio(data_link)
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Received: Youtube URL!")
-    if (data_saved==False):
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Failed to parse uploaded media :(")
-    else:
-        file_name = "yt" + ".mp4"
-        size, is_valid = await check_size(file_size=file_size)
-
-        await handle_link(size, is_valid, update, file_name, context)
-        
+     
 
 async def help(update : Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text=help_msg)
