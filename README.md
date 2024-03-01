@@ -3,10 +3,13 @@ EchoBot is a Telegram bot designed to streamline data collection for research in
 
 
 ## Getting Started
+To start interacting with the bot
 Head over to this link
-()[]
+[Echobot](https://t.me/echo_kd_bot)
 
-Search for `echo_kd_bot` on the Telegram search bar on desktop/mobile
+OR
+
+Open Telegram on desktop/Mobile, in the search bar type `echo_kd_bot`.
 
 ### User guide
 
