@@ -8,7 +8,6 @@ async def check_size(file_size):
     else :
         return file_size_in_mb, True
     
-
 async def download_file(file_path, file_name):
     media_directory = 'media'
     if not os.path.exists(media_directory):
@@ -24,6 +23,4 @@ async def delete_file(file_name):
         print("File or directory doesn't exist")
     else:
         os.remove(f"{media_directory}/{file_name}")
-
-#delete_file("test.json")
 

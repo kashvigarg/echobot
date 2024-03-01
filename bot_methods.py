@@ -11,9 +11,9 @@ async def change_mode(update, context: ContextTypes.DEFAULT_TYPE):
 
     message_text = (
         "Select your preference:\n"
-        "1. Receive both the transcribed audio and translated English text\n"
-        "2. Receive only the English text\n"
-        "3. Receive only the SEA text\n"
+        "1. Receive the transcribed text from your media file as well as an English translation of the same.\n"
+        "2. Receive only the English translation of an uploaded file.\n"
+        "3. Receive only a textual transcription of an uploaded file.\n\n"
     )
 
     keyboard_buttons = [InlineKeyboardButton(text, callback_data=option) for option, text in options.items()]
@@ -30,7 +30,10 @@ async def change_privacy(update, context: ContextTypes.DEFAULT_TYPE):
     else:
         curr_privacy = 'no'
     
-    await context.bot.send_message(chat_id=update.message.from_user.id, text=f"Set privacy mode : {curr_privacy}")
+    if (curr_privacy == 'no'):
+        await context.bot.send_message(chat_id=update.message.from_user.id, text=f"Privacy setting modified. Your data won't be shared or stored.")
+    else:
+        await context.bot.send_message(chat_id=update.message.from_user.id, text=f"Privacy setting modified. You are now anonymously contributing to our open source dataset. \n\n You can view the same [here]({dataset_link}).", parse_mode='Markdown')
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.message.from_user.id
@@ -48,7 +51,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await context.bot.send_message(chat_id=update.effective_chat.id, text=start_msg)
     await context.bot.send_message(chat_id=user_id, text=message_text, reply_markup=reply_markup)
-    
 
 async def handle_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -62,7 +64,7 @@ async def handle_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     global curr_mode
     curr_mode = query.data
-    msg_data = options[curr_mode]
+    msg_data = options_data[curr_mode]
     await query.edit_message_text(text=f"Translation setting modified.\n {msg_data}")
 
 
@@ -91,6 +93,11 @@ async def video_chat(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data_size, data_res = await check_size(data.file_size)
     await handle_media(data, data_size, data_res, update, 'video chat', context)
 
+async def info_command(update, context):
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=info_msg, parse_mode='Markdown')
+
+async def language_command(update, context):
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=languages_supported_msg)
   
 async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.document
@@ -121,7 +128,7 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
 
         if (lang==False):
             await delete_file(file_name=file_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
+            await context.bot.send_message(chat_id=update.effective_chat.id, text=content_region_msg)
         else:
             json_name = file_name.split('.')[0] + '.json'
             json_file = f'media/{json_name}'
