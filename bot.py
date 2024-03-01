@@ -10,7 +10,7 @@ import telebot
 
 load_dotenv()
 
-BOT_TOKEN = os.getenv('BOT_TOKEN')
+BOT_TOKEN = os.getenv('TEST_BOT_TOKEN')
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     voice_handler = MessageHandler(filters.VOICE, audio_chat)
     videonote_handler = MessageHandler(filters.VIDEO_NOTE, video_chat)
     video_handler = MessageHandler(filters.VIDEO, video_upload)
-    # link_handler = MessageHandler(filters.regex(r'https?://\S+'), link_upload)
+    link_handler = MessageHandler(filters.Regex(r'(https?://(?:www\.)?youtube\.com/[-\w]+|(?:https?://)?(?:www\.)?youtu\.be/[-\w]+)'), link_upload)
     callback_handler = CallbackQueryHandler(handle_choice)
     privacy_handler = CommandHandler('privacy', change_privacy)
     media_file_handler = MessageHandler(filters.Document.ALL, doc_upload)
@@ -48,7 +48,8 @@ if __name__ == '__main__':
     application.add_handler(callback_handler)
     application.add_handler(info_handler)
     application.add_handler(language_handler)
-    # application.add_handler(link_handler)
+    application.add_handler(link_handler)
+    application.add_error_handler(error_handler)
     
 
     application.run_polling()

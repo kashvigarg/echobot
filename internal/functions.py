@@ -24,3 +24,17 @@ async def delete_file(file_name):
     else:
         os.remove(f"{media_directory}/{file_name}")
 
+
+from pytube import YouTube
+
+async def download_youtube_audio(url, output_path='media'):
+    try:
+        youtube = YouTube(url)
+        audio_stream = youtube.streams.filter(only_audio=True, file_extension='mp4').first()
+        audio_stream.download(output_path, filename='yt.mp4')
+
+       
+        await delete_file(audio_stream.title)
+        return True, audio_stream.title, audio_stream.filesize
+    except Exception as e:
+        return False, '' , 0

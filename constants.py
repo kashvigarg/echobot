@@ -50,7 +50,12 @@ info_msg = (
     "We appreciate your contribution, and your trust is important to us."
 )
 
-
+error_msg = (
+    "We apologize for the inconvenience, but there was an error processing your file.\n\n"
+    "As a possible solution, try renaming the file to an alphanumeric sequence and uploading it again.\n"
+    "If the problem persists, please ensure a stable network connection.\n\n" 
+    "Thank you for your understanding and cooperation."
+)
 content_region_msg = (
     "We appreciate your interest! However, we are specifically focusing on media with South East Asian (SEA) context. Feel free to contribute content related to this region.\n\n"
     "Use /languages to find more about included languages and tongues."
