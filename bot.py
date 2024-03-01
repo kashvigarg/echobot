@@ -28,7 +28,7 @@ if __name__ == '__main__':
     voice_handler = MessageHandler(filters.VOICE, audio_chat)
     videonote_handler = MessageHandler(filters.VIDEO_NOTE, video_chat)
     video_handler = MessageHandler(filters.VIDEO, video_upload)
-    link_handler = MessageHandler(filters.Regex(r'(https?://(?:www\.)?youtube\.com/[-\w]+|(?:https?://)?(?:www\.)?youtu\.be/[-\w]+)'), link_upload)
+    #link_handler = MessageHandler(filters.Regex(r'(https?://(?:www\.)?youtube\.com/[-\w]+|(?:https?://)?(?:www\.)?youtu\.be/[-\w]+)'), link_upload)
     callback_handler = CallbackQueryHandler(handle_choice)
     privacy_handler = CommandHandler('privacy', change_privacy)
     media_file_handler = MessageHandler(filters.Document.ALL, doc_upload)
