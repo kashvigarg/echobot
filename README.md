@@ -8,7 +8,7 @@ Head over to this link
 
 Search for `echo_kd_bot` on the Telegram search bar on desktop/mobile
 
-# User guide
+### User guide
 
 
 ## Features
