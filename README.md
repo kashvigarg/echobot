@@ -3,10 +3,13 @@ EchoBot is a Telegram bot designed to streamline data collection for research in
 
 
 ## Getting Started
+To start interacting with the bot
 Head over to this link
-()[]
+[Echobot](https://t.me/echo_kd_bot)
 
-Search for `echo_kd_bot` on the Telegram search bar on desktop/mobile
+OR
+
+Open Telegram on desktop/Mobile, in the search bar type `echo_kd_bot`.
 
 ### User guide
 
@@ -41,7 +44,7 @@ pip install requirements.txt
 To run the bot locally you'll need a Telegram Bot token which can be ..., and a google cloud service account json key, which can be ...
 save the value of the bot token in the .env file as 
 `BOT_TOKEN="Value of token"`
-and the service account json file as `serviceaccount.json`, both in the root folder.
+and the service account json file as `service_account.json`, both in the root folder.
 
 Then finally run the following command to get the bot running.
 ```
