@@ -44,7 +44,7 @@ pip install requirements.txt
 To run the bot locally you'll need a Telegram Bot token which can be ..., and a google cloud service account json key, which can be ...
 save the value of the bot token in the .env file as 
 `BOT_TOKEN="Value of token"`
-and the service account json file as `serviceaccount.json`, both in the root folder.
+and the service account json file as `service_account.json`, both in the root folder.
 
 Then finally run the following command to get the bot running.
 ```
