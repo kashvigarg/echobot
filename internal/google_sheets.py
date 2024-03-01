@@ -1,7 +1,7 @@
 import pygsheets 
 
 def add_data_to_sheets(sea, eng, lang):
-    client = pygsheets.authorize(service_account_file="echobot-415817-48c074d2441c.json") 
+    client = pygsheets.authorize(service_account_file="service_account.json") 
     worksheet = client.open('EchoBot-Dataset').sheet1
     new_row = [sea, eng, lang]
 
