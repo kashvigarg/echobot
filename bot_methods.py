@@ -1,19 +1,12 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, Update, constants
 from telegram.ext import ContextTypes
 from constants import *
 from internal.functions import *
 from internal.features import*
+from bot_globals import curr_privacy, curr_mode
+from aux_methods import *
 
-
-options = {
-    'both': 'Both',
-    'english_only': 'English only',
-    'sea_only': 'SEA only'
-}
-
-curr_mode = 'both'
-
-async def change_mode(update, context):
+async def change_mode(update, context: ContextTypes.DEFAULT_TYPE):
     global curr_mode
 
     message_text = (
@@ -27,31 +20,17 @@ async def change_mode(update, context):
 
     reply_markup = InlineKeyboardMarkup([keyboard_buttons[i:i + 1] for i in range(0, len(keyboard_buttons), 1)])
 
-    # Send the message with options
-    message = await context.bot.send_message(chat_id=update.message.from_user.id, text=message_text, reply_markup=reply_markup)
+    await context.bot.send_message(chat_id=update.message.from_user.id, text=message_text, reply_markup=reply_markup)
 
-    # Define a handler to process the user's choice
-    context.dispatcher.add_handler(update, context, 'inline_query', change_mode_callback)
+async def change_privacy(update, context: ContextTypes.DEFAULT_TYPE):
+    global curr_privacy
 
-    # Update the user on the current translation mode
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=f'Changed translation mode to {curr_mode}')
+    if (curr_privacy =='no'):
+        curr_privacy = 'yes'
+    else:
+        curr_privacy = 'no'
 
-async def change_mode_callback(update, context):
-    query = update.callback_query
-    selected_option = query.data
-
-    global curr_mode
-    curr_mode = selected_option
-
-    await context.bot.edit_message_text(
-        chat_id=query.message.chat_id,
-        message_id=query.message.message_id,
-        text=f'Changed translation mode to {curr_mode}'
-    )
-
-    # Remove the callback handler after processing the user's choice
-    context.dispatcher.remove_handler(update, context, 'inline_query', change_mode_callback)
-
+    await context.bot.send_message(chat_id=update.message.from_user.id, text=f"Set privacy mode : {curr_privacy}")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.message.from_user.id
@@ -90,142 +69,33 @@ async def audio_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.audio
     chat_id = update.message.chat_id
     data_size, data_res = await check_size(data.file_size)
-    if (data_res):
-        file_name = data.file_name 
-        file = await data.get_file()
-        file_path = file.file_path
-        await download_file(file_path=file_path, file_name=file_name)
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="Received an audio file!")
-        if curr_mode == 'both':
-            lang = trans_both(audio=f'media/{file_name}')
-        elif curr_mode == 'english_only':
-            lang = trans_eng(audio=f'media/{file_name}')
-        elif curr_mode == 'sea_only':
-            lang = trans_sea(audio=f'media/{file_name}')
-        else:
-            lang = False
+    await handle_media(data, data_size, data_res, update, 'an audio file', context)
 
-        if (lang==False):
-            await delete_file(file_name=file_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
-        else:
-            json_name = file_name.split('.')[0] + '.json'
-            json_file = f'media/{json_name}'
-            
-            await context.bot.send_document(chat_id=chat_id, document=json_file) 
-            await delete_file(file_name=file_name)
-            await delete_file(file_name=json_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=confirmation_msg)
-            
-    else:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your file occupies {data_size} MB. EchoBot currently doesn't support files exceeding 25 MB :(")
 
 async def audio_chat(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.voice
     chat_id = update.message.chat_id
     data_size, data_res = await check_size(data.file_size)
-    if (data_res):
-        file_name = "voicerec" + data.file_unique_id + ".oga"
-        file = await data.get_file()
-        file_path = file.file_path
-        await download_file(file_path=file_path, file_name=file_name)
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="Received a voice recording!") 
-        if curr_mode == 'both':
-            lang = trans_both(audio=f'media/{file_name}')
-        elif curr_mode == 'english_only':
-            lang = trans_eng(audio=f'media/{file_name}')
-        elif curr_mode == 'sea_only':
-            lang = trans_sea(audio=f'media/{file_name}')
-        else:
-            lang = False
-
-        if (lang==False):
-            await delete_file(file_name=file_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
-        else:
-            json_name = file_name.split('.')[0] + '.json'
-            json_file = f'media/{json_name}'
-            
-            await context.bot.send_document(chat_id=chat_id, document=json_file) 
-            await delete_file(file_name=file_name)
-            await delete_file(file_name=json_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=confirmation_msg)
-    else:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your message occupies {data_size} MB. EchoBot currently doesn't support files exceeding 25 MB :(")
+    await handle_media(data, data_size, data_res, update, 'voice recording', context)
 
 async def video_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.video
     chat_id = update.message.chat_id
     data_size, data_res = await check_size(data.file_size)
-    if (data_res):
-        file_name = data.file_name
-        if (file_name==None):
-            file_name =  "videorec" + data.file_unique_id + ".mp4"
-        file = await data.get_file()
-        file_path = file.file_path
-        await download_file(file_path=file_path, file_name=file_name)
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Received a video file {file_name}!")
-        if curr_mode == 'both':
-            lang = trans_both(audio=f'media/{file_name}')
-        elif curr_mode == 'english_only':
-            lang = trans_eng(audio=f'media/{file_name}')
-        elif curr_mode == 'sea_only':
-            lang = trans_sea(audio=f'media/{file_name}')
-        else:
-            lang = False
-
-        if (lang==False):
-            await delete_file(file_name=file_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
-        else:
-            json_name = file_name.split('.')[0] + '.json'
-            json_file = f'media/{json_name}'
-            
-            await context.bot.send_document(chat_id=chat_id, document=json_file) 
-            await delete_file(file_name=file_name)
-            await delete_file(file_name=json_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=confirmation_msg)
-    else:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your message occupies {data_size} MB. EchoBot currently doesn't support files exceeding 25 MB :(")
+    await handle_media(data, data_size, data_res, update, 'video file', context)
 
 async def video_chat(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.video_note
     chat_id = update.message.chat_id
     data_size, data_res = await check_size(data.file_size)
-    if (data_res):
-        file_name = "videorec" + data.file_unique_id + ".mp4"
-        file = await data.get_file()
-        file_path = file.file_path
-        await download_file(file_path=file_path, file_name=file_name)
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="Received a video chat!")
-        if curr_mode == 'both':
-            lang = trans_both(audio=f'media/{file_name}')
-        elif curr_mode == 'english_only':
-            lang = trans_eng(audio=f'media/{file_name}')
-        elif curr_mode == 'sea_only':
-            lang = trans_sea(audio=f'media/{file_name}')
-        else:
-            lang = False
-
-        if (lang==False):
-            await delete_file(file_name=file_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="We're currently only accepting media with SEA context.")
-        else:
-            json_name = file_name.split('.')[0] + '.json'
-            json_file = f'media/{json_name}'
-            
-            await context.bot.send_document(chat_id=chat_id, document=json_file) 
-            await delete_file(file_name=file_name)
-            await delete_file(file_name=json_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=confirmation_msg)
-    else:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your message occupies {data_size} MB. EchoBot currently doesn't support files exceeding 25 MB :(")
-
+    await handle_media(data, data_size, data_res, update, 'video chat', context)
 
   
 async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.document
     chat_id = update.message.chat_id
+    global curr_privacy
+    global curr_mode
     data_size, data_res = await check_size(data.file_size)
     if (data_res):
         file_name = data.file_name 
@@ -240,7 +110,7 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
         await download_file(file_path=file_path, file_name=file_name)
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Received am media file!")
         if curr_mode == 'both':
-            lang = trans_both(audio=f'media/{file_name}')
+            lang = trans_both(f'media/{file_name}', curr_privacy)
         elif curr_mode == 'english_only':
             lang = trans_eng(audio=f'media/{file_name}')
         elif curr_mode == 'sea_only':
@@ -255,10 +125,11 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
             json_name = file_name.split('.')[0] + '.json'
             json_file = f'media/{json_name}'
             
-            await context.bot.send_document(chat_id=chat_id, document=json_file) 
+            await context.bot.send_document(chat_id=chat_id, document=json_file)
+            await context.bot.send_message(chat_id=update.effective_chat.id, text=confirmation_msg)
+
             await delete_file(file_name=file_name)
             await delete_file(file_name=json_name)
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=confirmation_msg)
             
     else:
         await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your file occupies {data_size} MB. EchoBot currently doesn't support files exceeding 25 MB :(")
@@ -266,3 +137,9 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def help(update : Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text=help_msg)
+
+
+# def
+# how to run
+# local development
+# features 
