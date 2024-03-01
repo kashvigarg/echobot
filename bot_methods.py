@@ -24,12 +24,12 @@ async def change_mode(update, context: ContextTypes.DEFAULT_TYPE):
 
 async def change_privacy(update, context: ContextTypes.DEFAULT_TYPE):
     global curr_privacy
-
+    
     if (curr_privacy =='no'):
         curr_privacy = 'yes'
     else:
         curr_privacy = 'no'
-
+    
     await context.bot.send_message(chat_id=update.message.from_user.id, text=f"Set privacy mode : {curr_privacy}")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
