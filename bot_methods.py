@@ -35,10 +35,10 @@ async def change_privacy(update, context: ContextTypes.DEFAULT_TYPE):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.message.from_user.id
     message_text =  message_text = (
-    "Select your preference:\n"
-    "1. Receive both the transcribed audio and translated English text\n"
-    "2. Receive only the English text\n"
-    "3. Receive only the SEA text\n"
+    "Choose an initial translation preference:\n"
+    "1. Receive the transcribed text from your media file as well as an English translation of the same.\n"
+    "2. Receive only the English translation of an uploaded file.\n"
+    "3. Receive only a textual transcription of an uploaded file.\n\n"
     "You can modify this preference anytime using the /trmode command."
 )
 
@@ -56,20 +56,21 @@ async def handle_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     choice = query.data.lower()
 
     if choice not in options:
-       await context.bot.send_message(chat_id=user_id, text="Invalid choice. Please choose an option.")
+       await context.bot.send_message(chat_id=user_id, text="Invalid choice. Please choose a valid option.")
        return 
 
     await query.answer()
     global curr_mode
     curr_mode = query.data
-    await query.edit_message_text(text=f"Selected translation mode: {query.data}")
+    msg_data = options[curr_mode]
+    await query.edit_message_text(text=f"Translation setting modified.\n {msg_data}")
 
 
 async def audio_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.message.audio
     chat_id = update.message.chat_id
     data_size, data_res = await check_size(data.file_size)
-    await handle_media(data, data_size, data_res, update, 'an audio file', context)
+    await handle_media(data, data_size, data_res, update, 'audio file', context)
 
 
 async def audio_chat(update : Update, context: ContextTypes.DEFAULT_TYPE):
@@ -108,7 +109,7 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
             return 
         
         await download_file(file_path=file_path, file_name=file_name)
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="Received am media file!")
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Received:  media file!")
         if curr_mode == 'both':
             lang = trans_both(f'media/{file_name}', curr_privacy)
         elif curr_mode == 'english_only':
@@ -134,6 +135,8 @@ async def doc_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your file occupies {data_size} MB. EchoBot currently doesn't support files exceeding 25 MB :(")
 
+async def link_upload(update : Update, context: ContextTypes.DEFAULT_TYPE):
+    pass
 
 async def help(update : Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text=help_msg)
