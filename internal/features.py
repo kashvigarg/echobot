@@ -1,13 +1,13 @@
 import whisper
 import json
 import os
+from internal.google_sheets import *
 
 languages={"id":"indonesian",
            "vi":"vietnamese",
            "th":"thai",
            "my":"myanmar",
            "ms":"malay",
-           "zh":"chinese",
            "lo": "lao",
            "eng":"english"}
 
@@ -36,7 +36,7 @@ def detect_lang(model,audio):
  
     lang=max(probs, key=probs.get)
 
-    if lang not in ['id','vi','th','my','ms','zh','lo']:
+    if lang not in ['id','vi','th','my','ms','lo']:
         return "False"
     else:
         return lang
@@ -66,7 +66,7 @@ def trans_eng(audio):
     lang_json(eng["text"],file_name)
 
 
-def trans_both(audio):
+def trans_both(audio,priv):
     model=whisper.load_model("small")
 
     lang_test=detect_lang(model,audio)
@@ -77,6 +77,9 @@ def trans_both(audio):
 
     eng=model.transcribe(audio,task="translate")
     file_name=os.path.splitext(audio)[0]+'.json'
+
+    if priv=='yes':
+        add_data_to_sheets(sea_lang["text"],eng["text"],languages[lang_test])
 
     sea_json(sea_lang["text"],eng["text"],lang_test,file_name)
 

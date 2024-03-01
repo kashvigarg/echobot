@@ -2,7 +2,7 @@ from bot_globals import curr_mode, curr_privacy
 from internal.functions import *
 from internal.features import *
 from constants import *
-from google_sheets import *
+#from internal.google_sheets import *
 
 async def handle_media(data, data_size, data_res, update, file_type, context):
     global curr_privacy
