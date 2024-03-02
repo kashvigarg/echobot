@@ -69,6 +69,7 @@ languages_supported_msg = (
     "Myanmar\n"
     "Malay\n"
     "Lao\n"
+    "khmer\n"
 )
 
 
