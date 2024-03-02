@@ -67,6 +67,7 @@ The bot handles a wide range of user inputs, including audio, video, and all in-
 
 Post processing, the bot integrates anonymized content into an open-source dataset, respecting user privacy preferences. This dataset is currently built upon the Google Sheets API. In cases where submissions are restricted by privacy settings, the bot ensures the secure removal of all associated files. Users are kept well-informed with clear confirmation messages at each stage of the process.
 
+The bot uses a model with 244 Million parameters and is hosted using a Virtual machine with 4vcpus and 8 GB RAM .
 
 ## Build From Source
 Requires Python version 3.8 * 
@@ -98,9 +99,9 @@ Then finally run the following command to get the bot running.
 python bot.py
 ```
 
-Note: *Later versions of python may cause version mismatch of various python libraries installed , which may need to be resolved manually. 
+**Note:** *Later versions of python may cause version mismatch of various python libraries installed , which may need to be resolved manually. 
 
-Note: The language model currently won't be able to recognize files as one of the SEA language files if the initial few seconds of the file contains any other language.
+**Note:** The language model currently won't be able to recognize files as one of the SEA language files if the initial few seconds of the file contains any other language.
       At the same time in some cases it may face hallucinations while processing very small (1-4 seconds) files.
 
 #### Submission details
