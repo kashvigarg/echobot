@@ -1,6 +1,12 @@
 # ECHOBOT
 EchoBot is a Telegram bot designed to streamline data collection for research in the field of Large Language Models (LLM), specifically focusing on languages spoken in Southeast Asia. It is an easy to use tool, that comes with extensive documentation and a friendly user interface.
 
+<p align="center">
+  <img src="https://github.com/kashvigarg/echobot/blob/main/files/echobot1.jpg" alt="First Image" style="width:32%; display:inline-block;"/>
+  <img src="https://github.com/kashvigarg/echobot/blob/main/files/echobot2.jpg" alt="Second Image" style="width:32%; display:inline-block;"/>
+  <img src="https://github.com/kashvigarg/echobot/blob/main/files/echobot3.jpg" alt="Third Image" style="width:32%; display:inline-block;"/>
+</p>
+
 Explore our [dataset](https://docs.google.com/spreadsheets/d/1GcFxt5QD1e0MsxaHb9Wlb6XS-tMt7esv5ocmgUj6V_Q/edit?usp=sharing) for a closer look at how all the features finally come together.
 
 ## Getting Started
