@@ -1,4 +1,4 @@
-# ECHOBOT
+# <img src="https://github.com/kashvigarg/echobot/blob/main/files/logoechobot.webp" width="37px"> ECHOBOT
 EchoBot is a Telegram bot designed to streamline data collection for research in the field of Large Language Models (LLM), specifically focusing on languages spoken in Southeast Asia. Transcribe/Translate various audio/video files belonging to languages spoken in South East Asian region and get respective result in a json format, the data is then included in the public dataset upon user's consent. It is an easy to use tool, that comes with extensive documentation and a friendly user interface.
 
 <p align="center">
