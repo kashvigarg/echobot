@@ -79,7 +79,19 @@ run the following commands
 git clone https://github.com/kashvigarg/echobot
 cd echobot
 ```
+The bot requires `ffmpeg` installed on the system
 
+```
+# on Ubuntu or Debian
+sudo apt update && sudo apt install ffmpeg
+
+# on MacOS using Homebrew (https://brew.sh/)
+brew install ffmpeg
+
+# on Windows using Chocolatey (https://chocolatey.org/)
+choco install ffmpeg
+
+```
 Once inside the repository run 
 ```
 pip install requirements.txt
