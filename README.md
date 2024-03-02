@@ -34,7 +34,7 @@ Find us on Telegram, whether you're using a desktop or mobile device. Simply sea
 ## Features
 - **Relevancy to SEA-based Research**
   
-  The bot, on receiving media, autodetects its language, accepting only those which fall under the Southeast Asian region. It currently supports **Vietnamese**, **Thai**, **Indonesian**, **Burmese/Myanmar**, **Malay**, **Lao/Laotian**. 
+  The bot, on receiving media, autodetects its language, accepting only those which fall under the Southeast Asian region. It currently supports **Vietnamese**, **Thai**, **Indonesian**, **Burmese/Myanmar**, **Malay**, **Lao/Laotian**, **khmer**. 
   
 - **Data Compatible with LLM Corpora Policies**
 
