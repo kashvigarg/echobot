@@ -9,6 +9,7 @@ languages={"id":"indonesian",
            "my":"myanmar",
            "ms":"malay",
            "lo": "lao",
+           "kh":"khmer",
            "eng":"english"}
 
 def lang_json(text,file_name,lang="eng"):
@@ -36,7 +37,7 @@ def detect_lang(model,audio):
  
     lang=max(probs, key=probs.get)
 
-    if lang not in ['id','vi','th','my','ms','lo']:
+    if lang not in ['id','vi','th','my','ms','lo','km']:
         return "False"
     else:
         return lang
