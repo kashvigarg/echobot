@@ -26,12 +26,15 @@ Find us on Telegram, whether you're using a desktop or mobile device. Simply sea
 - View all supported languages using the `/languages` command.
 - The `/privacy` command toggles between privacy settings. You can choose to keep your data private or anonymously contribute to our dataset.
 - Use `/info` to learn more about our project and data policies.
-- The `/help` command can be used to get a quick overview of how to use all features within the bot. 
+- The `/help` command can be used to get a quick overview of how to use all features within the bot.
+
+  #### Testing
+  For testing the bot the user may use the following files [Test file 1](https://github.com/kashvigarg/echobot/blob/main/files/indotest1.mp3) , [Test file 2](https://github.com/kashvigarg/echobot/blob/main/files/indo4.mp3) , with the default privacy options, ie. the file transription/translation won't be stored in the [dataset](https://docs.google.com/spreadsheets/d/1GcFxt5QD1e0MsxaHb9Wlb6XS-tMt7esv5ocmgUj6V_Q/edit#gid=0)
 
 ## Features
 - **Relevancy to SEA-based Research**
   
-  The bot, on receiving media, autodetects its language, accepting only those which fall under the Southeast Asian region. It currently supports Vietnamese, Thai, Indonesian, Burmese/Myanmar, Malay, Lao/Laotian. 
+  The bot, on receiving media, autodetects its language, accepting only those which fall under the Southeast Asian region. It currently supports **Vietnamese**, **Thai**, **Indonesian**, **Burmese/Myanmar**, **Malay**, **Lao/Laotian**. 
   
 - **Data Compatible with LLM Corpora Policies**
 
@@ -96,3 +99,9 @@ python bot.py
 ```
 
 Note: *Later versions of python may cause version mismatch of various python libraries installed , which may need to be resolved manually. 
+
+Note: The language model currently won't be able to recognize files as one of the SEA language files if the initial few seconds of the file contains any other language.
+      At the same time in some cases it may face hallucinations while processing very small (1-4 seconds) files.
+
+#### Submission details
+stackup username - deejay
