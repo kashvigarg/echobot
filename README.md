@@ -116,5 +116,5 @@ python bot.py
 **Note:** The language model currently won't be able to recognize files as one of the SEA language files if the initial few seconds of the file contains any other language.
       At the same time in some cases it may face hallucinations while processing very small (1-4 seconds) files.
 
-#### Submission details
-stackup username - deejay
+#### Aftermath
+This project bagged the first position in the [bounty](https://twitter.com/StackUpHQ/status/1770835289444962445) organized by Infocomm Media Authority, Singapore and Stackup.
