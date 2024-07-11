@@ -10,7 +10,9 @@ EchoBot is a Telegram bot designed to streamline data collection for research in
 Explore our [dataset](https://docs.google.com/spreadsheets/d/1GcFxt5QD1e0MsxaHb9Wlb6XS-tMt7esv5ocmgUj6V_Q/edit?usp=sharing) for a closer look at how all the features finally come together.
 
 ## Getting Started
-Start interacting with the bot [here](https://t.me/echo_kd_bot).
+(Currently not hosted due to free plan limitations)
+
+Start interacting with the bot [here](https://t.me/echo_kd_bot).   
 
 OR
 
